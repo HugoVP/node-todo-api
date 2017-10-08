@@ -2,14 +2,15 @@
   "name": "node-todo-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/server.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^2.2.27"
+    "mongodb": "^2.2.27",
+    "mongoose": "^4.5.9"
   }
 }
