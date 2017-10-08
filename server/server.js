@@ -1,63 +1,48 @@
-const mongoose = require('mongoose');
-const {Schema} = mongoose
+const express = require('express');
+const bodyParser = require('body-parser');
 
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/TodoApp');
+const {mongoose} = require('./db/mongoose');
+const {Todo} = require('./models/Todo');
+const {User} = require('./models/User');
 
-/* Todo model */
-const Todo = mongoose.model('Todo', {
-  text: {
-    type: String,
-    required: true,
-    minlength: 1,
-    trim: true,
-  },
-  completed: {
-    type: Boolean,
-    default: false,
-  },
-  completedAt: {
-    type: Number,
-    default: null
-  },
+const app = express();
+
+app.use(bodyParser.json());
+
+app.post('/todos', (req, res) => {
+    const todo = new Todo({
+      text: req.body.text,
+    });
+
+    todo.save().then((doc) => {
+      res.send(doc);
+    }).catch((err) => {
+      res.status(400).send(err);
+    });
 });
 
-// var todo = new Todo({
-//   text: 'Cook dinner',
-// });
+app.listen(3000, () => {
+  console.log(`Started on port: 3000`);
+});
 
+// /* Create a todo */
 // var todo = Todo({
-//   text: `Feed the cat`,
-//   completed: true,
-//   completedAt: 1234567890,
+//   text: `Walk the dog`,
 // });
-
-var todo = Todo({
-  text: `Walk the dog`,
-});
-
-todo.save().then((doc) => {
-  console.log(JSON.stringify(doc, undefined, 2));
-}).catch((err) => {
-  console.log(`Unable to save: ${err}`);
-});
-
-/* User model */
-const User = mongoose.model('User', {
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 1,
-  },
-});
-
-var user = new User({
-  email: 'one@example.com',
-});
-
-user.save().then((doc) => {
-  console.log(`User saved: ${JSON.stringify(doc, undefined, 2)}`);
-}).catch((err) => {
-  console.log(`Unable to save: ${err}`);
-});
+//
+// todo.save().then((doc) => {
+//   console.log(JSON.stringify(doc, undefined, 2));
+// }).catch((err) => {
+//   console.log(`Unable to save: ${err}`);
+// });
+//
+// /* Create a user */
+// var user = new User({
+//   email: 'one@example.com',
+// });
+//
+// user.save().then((doc) => {
+//   console.log(`User saved: ${JSON.stringify(doc, undefined, 2)}`);
+// }).catch((err) => {
+//   console.log(`Unable to save: ${err}`);
+// });
