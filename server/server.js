@@ -55,8 +55,10 @@ app.get('/todos/:id', (req, res) => {
     .catch((err) => res.status(400).send(err));
 });
 
-app.listen(3000, () => {
-  console.log(`Started on port: 3000`);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Started on port: ${PORT}`);
 });
 
 module.exports = {app};
