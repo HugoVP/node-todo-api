@@ -10,47 +10,33 @@ const app = express();
 
 app.use(bodyParser.json());
 
+/* POST /todos - Add a todo */
 app.post('/todos', (req, res) => {
     const todo = new Todo({
       text: req.body.text,
     });
 
     todo.save()
-      .then((doc) => {
-        res.send(doc);
-      })
-      .catch((err) => {
-        res.status(400).send(err);
-      });
+      .then((todo) => res.send(todo))
+      .catch((err) => res.status(400).send(err));
 });
 
+/* GET /todos */
 app.get('/todos', (req, res) => {
   Todo.find()
-    .then((todos) => {
-      res.send({todos});
-    })
-    .catch((err) => {
-      res.status(400).send(err);
-    });
+    .then((todos) => res.send({todos}))
+    .catch((err) => res.status(400).send(err));
 });
 
 app.get('/todos/:id', (req, res) => {
   const {id} = req.params;
 
   if (!ObjectID.isValid(id)) {
-    res.status(404).send();
-    return;
+    return res.status(404).send();
   }
 
   Todo.findById(id)
-    .then((todo) => {
-      if (!todo) {
-        res.status(404).send();
-      }
-      else {
-        res.send({todo});
-      }
-    })
+    .then((todo) => todo ? res.send({todo}) : res.status(404).send())
     .catch((err) => res.status(400).send(err));
 });
 
@@ -60,22 +46,12 @@ app.delete('/todos/:id', (req, res) => {
 
   /* Validate the id -> not valid? return 404 */
   if (!ObjectID.isValid(id)) {
-    res.status(404).send();
-    return;
+    return res.status(404).send();
   }
 
   /* Remove todo by id */
   Todo.findByIdAndRemove(id)
-    .then((todo) => {
-      /* If no doc, send 404 */
-      if (!todo) {
-        res.status(404).send();
-      }
-      /* Id doc, send doc back with 200 */
-      else {
-        res.send(todo);
-      }
-    })    
+    .then((todo) => todo ? res.send({todo}) : res.status(404).send())
     .catch((err) => res.status(400).send(err));
 });
 
