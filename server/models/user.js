@@ -14,6 +14,7 @@ const UserSchema = new mongoose.Schema({
     validate: {
       validator: validator.isEmail,
       message: '{VALUE} is not a valid email',
+      isAsync: false,
     },
   },
   password: {
@@ -59,7 +60,7 @@ UserSchema.methods.generateAuthToken = function() {
 
 UserSchema.statics.findByToken = function(token) {
   const User = this;
-  var decoded;
+  let decoded;
 
   try {
     decoded = jwt.verify(token, 'abc123');

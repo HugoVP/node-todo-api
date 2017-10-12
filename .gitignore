@@ -1,4 +1,6 @@
+node_modules
+playgrounds
 .DS_Store
 npm-debug.log
-playgrounds
-node_modules
+.idea/
+.tern-project
