@@ -1,4 +1,5 @@
 require('./config/config');
+require('./db/mongoose');
 
 const _ = require('lodash');
 const express = require('express');
