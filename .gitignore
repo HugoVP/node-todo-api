@@ -4,3 +4,4 @@ playgrounds
 npm-debug.log
 .idea/
 .tern-project
+server/config/config.json
