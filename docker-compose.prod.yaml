@@ -1,0 +1,12 @@
+version: '3'
+services:
+  api:
+    restart: on-failure
+    build:
+      dockerfile: dockerfile
+      context: ./
+    ports:
+      - 8000:8000
+    env_file: .env.production
+    environment: 
+      PORT: 8000

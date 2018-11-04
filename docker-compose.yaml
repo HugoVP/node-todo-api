@@ -20,7 +20,7 @@ services:
       sh -c
         "chmod +x wait-for.sh;
         ./wait-for.sh db:27017 --
-          npm run start"
+          npm run start-dev"
 
   db:
     restart: always
