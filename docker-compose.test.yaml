@@ -2,30 +2,32 @@ version: '3'
 services:
   api:
     restart: on-failure
+    depends_on:
+      - db
     build:
       dockerfile: dev.dockerfile
       context: ./
     ports:
-      - 3000:3000
+      - 5000:5000
     volumes:
       - /app/.git
       - /app/node_modules
       - ./:/app
     environment: 
-      MONGODB_URI: mongodb://db:27017/TodoApp
-      JWT_SECRET: 123abc
-      PORT: 3000
-
+      MONGODB_URI: mongodb://db:27017/TodoAppTest
+      JWT_SECRET: abcxyz123
+      PORT: 5000
+  
     command: |
       sh -c
         "chmod +x wait-for.sh;
         ./wait-for.sh db:27017 --
-          npm run start"
+          npm run test-watch"
 
   db:
     restart: always
     image: mongo:latest
     ports: 
-      - 10101:27017
+      - 20202:27017
     volumes:
       - $HOME/dbdata:/data/db
