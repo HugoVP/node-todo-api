@@ -11,7 +11,7 @@ services:
       - /app/.git
       - /app/node_modules
       - ./:/app
-    environment: 
+    environment:
       MONGODB_URI: mongodb://db:27017/TodoApp
       JWT_SECRET: 123abc
       PORT: 3000
@@ -25,7 +25,7 @@ services:
   db:
     restart: always
     image: mongo:latest
-    ports: 
+    ports:
       - 10101:27017
     volumes:
       - $HOME/dbdata:/data/db

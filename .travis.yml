@@ -1,0 +1,25 @@
+sudo: required
+if: 'branch = master'
+
+services:
+  - docker
+before_script:
+  - 'docker build -f dev.dockerfile -t hugovp/node-todo-api:test ./'
+script:
+  - 'docker run hugovp/node-todo-api:test npm run test -- --coverage'
+after_success:
+  - 'docker build -f dockerfile -t hugovp/node-todo-api ./'
+
+  # Log in to the Docker CLI
+  - 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin'
+
+  # Take the image and push it to Docker Hub
+  - 'docker push hugovp/node-todo-api'
+
+deploy: &heroku
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app: $HEROKU_APP_NAME
+  on:
+    repo: HugoVP/node-todo-api
+    branch: master

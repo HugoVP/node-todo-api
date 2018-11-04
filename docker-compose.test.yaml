@@ -13,11 +13,11 @@ services:
       - /app/.git
       - /app/node_modules
       - ./:/app
-    environment: 
+    environment:
       MONGODB_URI: mongodb://db:27017/TodoAppTest
       JWT_SECRET: abcxyz123
       PORT: 5000
-  
+
     command: |
       sh -c
         "chmod +x wait-for.sh;
@@ -27,7 +27,7 @@ services:
   db:
     restart: always
     image: mongo:latest
-    ports: 
+    ports:
       - 20202:27017
     volumes:
       - $HOME/dbdata:/data/db
