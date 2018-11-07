@@ -22,7 +22,7 @@ services:
       sh -c
         "chmod +x wait-for.sh;
         ./wait-for.sh db:27017 --
-          npm run test-watch"
+          npm run test:watch"
 
   db:
     restart: always
