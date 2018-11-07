@@ -13,6 +13,11 @@ const app = express();
 
 app.use(bodyParser.json());
 
+/* GET / - Home */
+app.get('/', (_, res) => {
+  res.send('Home');
+});
+
 /* POST /todos - Add a todo */
 app.post('/todos', authenticate, (req, res) => {
   const todo = new Todo({
